@@ -35,7 +35,20 @@ app.get('/math/rectangle/:width/:height', (req, res) => {
 
 
 //TODO3
+app.get('/math/power/:base/:exponent', (req, res) => {
+  const base = parseFloat(req.params.base)
+  const exponent = parseFloat(req.params.exponent)
+  const shouldReturnRootOfBase = req.query.root
 
+  if (isNaN(base) || isNaN(exponent)) {
+    res.status(400).json({error: 'The base and exponent must be numbers'})
+    return
+  }
+  const result = shouldReturnRootOfBase
+    ? { result: Math.pow(base, exponent), root: Math.sqrt(base) }
+    : { result: Math.pow(base, exponent) }
+  res.json(result)
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
